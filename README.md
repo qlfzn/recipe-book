@@ -4,16 +4,17 @@ Web application for managing and organizing TikTok recipe videos with AI-powered
 
 ## Features
 
-- **TikTok Integration**: Fetch recipe metadata directly from TikTok URLs
-- **AI-Powered Organization**: Automatic title, description, and tag generation using Groq API
-- **Meal Planning**: Set planned dates for recipes and view them in a timeline
-- **Tag-Based Filtering**: Organize recipes by custom tags
-- **Full-Text Search**: Search across titles, descriptions, authors, and tags
-- **Gallery & Timeline Views**: Two different ways to browse your recipes
+- Fetch recipe metadata directly from TikTok URLs
+- Automatic title, description, and tag generation using AI model
+- Set planned dates for recipes and view them in a timeline
+- Search recipes based on titles, descriptions, authors, and tags
 
 ## Tech Stack
 
-- **Frontend Framework**: Vue 3 with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS v4
+- **Frontend Framework**: Vue + TypeScript
 - **AI API**: Groq (LLaMA 3.1)
+- Database: Supabase (PostgreSQL)
+
+## Enhancements
+** [] Integrate with database - MongoDB
+** [] Authentication and user management
