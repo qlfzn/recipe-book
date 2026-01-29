@@ -16,5 +16,5 @@ Web application for managing and organizing TikTok recipe videos with AI-powered
 - Database: Supabase (PostgreSQL)
 
 ## Enhancements
-- [ ] Integrate with database - MongoDB
+- [ ] Integrate with database - Supabase
 - [ ] Authentication and user management
