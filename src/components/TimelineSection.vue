@@ -1,15 +1,30 @@
 <template>
   <div v-if="recipes.length > 0" class="mb-8">
     <div v-if="title" class="flex items-center gap-3 mb-4">
-      <div :class="['w-3 h-3 rounded-full', type === 'today' ? 'bg-gray-900' : 'bg-gray-400']"></div>
-      <h3 :class="['text-lg font-semibold', type === 'today' ? 'text-gray-900' : 'text-gray-900']">
+      <div
+        :class="[
+          'w-2 h-2 rounded-full',
+          type === 'today' ? 'bg-gray-900' : 'bg-gray-400',
+        ]"
+      ></div>
+      <h3
+        :class="[
+          'text-base font-semibold',
+          type === 'today' ? 'text-gray-900' : 'text-gray-900',
+        ]"
+      >
         {{ title }}
       </h3>
-      <span class="text-sm text-gray-600">{{ recipes.length }} recipe{{ recipes.length > 1 ? 's' : '' }}</span>
+      <span class="text-xs text-gray-600">{{ recipes.length }}</span>
     </div>
 
-    <div :class="['ml-1.5 pl-5 border-l-2', type === 'today' ? 'border-gray-900/30' : 'border-gray-300']">
-      <TimelineCard 
+    <div
+      :class="[
+        'ml-0 pl-6 border-l-2',
+        type === 'today' ? 'border-gray-900/20' : 'border-gray-300',
+      ]"
+    >
+      <TimelineCard
         v-for="recipe in recipes"
         :key="recipe.id"
         :recipe="recipe"
@@ -20,14 +35,17 @@
   </div>
 </template>
 
-<script setup>
-import TimelineCard from './TimelineCard.vue'
+<script setup lang="ts">
+import TimelineCard from "./TimelineCard.vue";
+import type { Recipe } from "../composables/useRecipes";
 
-defineProps({
-  title: String,
-  recipes: Array,
-  type: String
-})
+defineProps<{
+  title: string;
+  recipes: Recipe[];
+  type: "today" | "upcoming" | "past";
+}>();
 
-const emit = defineEmits(['view'])
+const emit = defineEmits<{
+  view: [recipe: Recipe];
+}>();
 </script>
