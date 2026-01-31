@@ -1,12 +1,12 @@
 <template>
   <div class="fixed inset-0 z-50">
-    <div class="modal-overlay absolute inset-0 bg-[#4A4039]/50 backdrop-blur-sm" @click="handleClose"></div>
-    <div class="absolute inset-4 md:inset-10 lg:inset-20 bg-[#FFFEFB] rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+    <div class="modal-overlay absolute inset-0 bg-gray-900/50 backdrop-blur-sm" @click="handleClose"></div>
+    <div class="absolute inset-4 md:inset-10 lg:inset-20 bg-white rounded-lg shadow-2xl overflow-hidden flex flex-col">
       <!-- Modal Header -->
-      <div class="flex items-center justify-between px-6 py-4 border-b border-[#C4977D]/20">
-        <h2 class="font-display text-xl font-semibold text-[#4A4039]">{{ recipe?.id ? 'Edit Recipe' : 'Add New Recipe' }}</h2>
-        <button @click="handleClose" class="p-2 hover:bg-[#F5EDE4] rounded-lg transition-colors">
-          <svg class="w-5 h-5 text-[#6B5B4F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-900">{{ recipe?.id ? 'Edit Recipe' : 'Add New Recipe' }}</h2>
+        <button @click="handleClose" class="p-2 hover:bg-gray-100 rounded transition-colors">
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
@@ -17,25 +17,25 @@
         <div class="max-w-2xl mx-auto space-y-6">
           <!-- URL Input -->
           <div v-if="!editMode">
-            <label class="block text-sm font-medium text-[#4A4039] mb-2">TikTok Video URL</label>
+            <label class="block text-sm font-medium text-gray-900 mb-2">TikTok Video URL</label>
             <div class="flex gap-3">
               <input 
                 v-model="form.url"
                 type="url" 
                 placeholder="https://www.tiktok.com/@username/video/..."
-                class="flex-1 px-4 py-3 bg-white border border-[#C4977D]/30 rounded-xl text-[#4A4039]"
+                class="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900"
               >
               <button 
                 @click="fetchMetadata"
                 :disabled="loading"
-                class="px-5 py-3 bg-[#9CAF88] hover:bg-[#8A9E79] text-white rounded-xl transition-colors font-medium flex items-center gap-2 disabled:opacity-50"
+                class="px-5 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-colors font-medium flex items-center gap-2 disabled:opacity-50"
               >
                 <span v-if="!loading">Fetch</span>
                 <span v-else>Processing...</span>
                 <div v-if="loading" class="loading-spinner"></div>
               </button>
             </div>
-            <p class="mt-2 text-sm text-[#6B5B4F]/70 flex items-center gap-2">
+            <p class="mt-2 text-sm text-gray-600 flex items-center gap-2">
               Paste your TikTok recipe video URL and click Fetch to auto-fill details
             </p>
           </div>
@@ -44,7 +44,7 @@
           <div v-if="editMode" class="space-y-6">
             <!-- Thumbnail Preview -->
             <div class="flex gap-6">
-              <div class="w-40 h-56 rounded-xl overflow-hidden bg-[#F5EDE4] flex-shrink-0">
+              <div class="w-40 h-56 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
                 <img 
                   v-if="form.thumbnail" 
                   :src="form.thumbnail" 
@@ -52,7 +52,7 @@
                   class="w-full h-full object-cover"
                 >
                 <div v-else class="w-full h-full flex items-center justify-center">
-                  <svg class="w-12 h-12 text-[#C4977D]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                   </svg>
                 </div>
@@ -61,23 +61,23 @@
               <div class="flex-1 space-y-4">
                 <!-- Title -->
                 <div>
-                  <label class="block text-sm font-medium text-[#4A4039] mb-2">Recipe Title</label>
+                  <label class="block text-sm font-medium text-gray-900 mb-2">Recipe Title</label>
                   <input 
                     v-model="form.title"
                     type="text" 
                     placeholder="Give your recipe a memorable name..."
-                    class="w-full px-4 py-3 bg-white border border-[#C4977D]/30 rounded-xl text-[#4A4039]"
+                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900"
                   >
                 </div>
 
                 <!-- Author -->
                 <div>
-                  <label class="block text-sm font-medium text-[#4A4039] mb-2">Creator</label>
+                  <label class="block text-sm font-medium text-gray-900 mb-2">Creator</label>
                   <input 
                     v-model="form.author"
                     type="text" 
                     placeholder="TikTok creator name"
-                    class="w-full px-4 py-3 bg-white border border-[#C4977D]/30 rounded-xl text-[#4A4039]"
+                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900"
                   >
                 </div>
               </div>
@@ -85,30 +85,30 @@
 
             <!-- Description -->
             <div>
-              <label class="block text-sm font-medium text-[#4A4039] mb-2">Description / Recipe Notes</label>
+              <label class="block text-sm font-medium text-gray-900 mb-2">Description / Recipe Notes</label>
               <textarea 
                 v-model="form.description"
                 rows="4"
                 placeholder="Add any recipe steps, ingredients, or notes from the video caption..."
-                class="w-full px-4 py-3 bg-white border border-[#C4977D]/30 rounded-xl text-[#4A4039] resize-none"
+                class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 resize-none"
               ></textarea>
             </div>
 
             <!-- Plan to Cook Date -->
             <div>
-              <label class="block text-sm font-medium text-[#4A4039] mb-2">
+              <label class="block text-sm font-medium text-gray-900 mb-2">
                 Plan to Cook 
-                <span class="font-normal text-[#6B5B4F]/70">(optional)</span>
+                <span class="font-normal text-gray-600">(optional)</span>
               </label>
               <div class="flex gap-3 items-center">
                 <input 
                   v-model="form.plannedDate"
                   type="date" 
-                  class="flex-1 px-4 py-3 bg-white border border-[#C4977D]/30 rounded-xl text-[#4A4039]"
+                  class="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900"
                 >
                 <button 
                   @click="form.plannedDate = null"
-                  class="px-4 py-3 bg-[#F5EDE4] hover:bg-[#E8DDD2] text-[#6B5B4F] rounded-xl transition-colors text-sm"
+                  class="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors text-sm"
                 >
                   Clear
                 </button>
@@ -122,17 +122,17 @@
       </div>
 
       <!-- Modal Footer -->
-      <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#C4977D]/20 bg-[#FAF6F1]">
+      <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50">
         <button 
           @click="handleClose"
-          class="px-5 py-2.5 bg-white border border-[#C4977D]/30 text-[#6B5B4F] rounded-xl hover:bg-[#F5EDE4] transition-colors font-medium"
+          class="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
         >
           Cancel
         </button>
         <button 
           v-if="editMode"
           @click="handleSave"
-          class="px-5 py-2.5 bg-[#C4977D] hover:bg-[#B38A70] text-white rounded-xl transition-colors font-medium"
+          class="px-5 py-2.5 bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-colors font-medium"
         >
           Save Recipe
         </button>
@@ -141,21 +141,17 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, reactive } from 'vue'
 import TagInput from './TagInput.vue'
-import { fetchTikTokMetadata, processWithAI, autoSuggestTags } from '../services/aiService'
-import { useAiSettings } from '../composables/useAiSettings'
-import type { Recipe } from '../composables/useRecipes'
+import { fetchTikTokMetadata, processWithAI, autoSuggestTags } from '../services/aiService.js'
+import { useAiSettings } from '../composables/useAiSettings.js'
 
-const props = defineProps<{
-  recipe?: Recipe | null
-}>()
+const props = defineProps({
+  recipe: Object
+})
 
-const emit = defineEmits<{
-  'close': []
-  'save': [recipe: any]
-}>()
+const emit = defineEmits(['close', 'save'])
 
 const aiStore = useAiSettings()
 const loading = ref(false)
@@ -168,8 +164,8 @@ const form = reactive({
   author: '',
   description: '',
   thumbnail: '',
-  tags: [] as string[],
-  plannedDate: null as string | null
+  tags: [],
+  plannedDate: null
 })
 
 onMounted(() => {
@@ -256,8 +252,8 @@ const handleClose = () => {
 
 <style scoped>
 .loading-spinner {
-  border: 3px solid var(--warm-beige);
-  border-top: 3px solid var(--terracotta);
+  border: 3px solid #e5e7eb;
+  border-top: 3px solid #1f2937;
   border-radius: 50%;
   width: 20px;
   height: 20px;

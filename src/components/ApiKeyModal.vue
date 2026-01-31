@@ -44,18 +44,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 
-const props = defineProps<{
-  initialKey: string
-  initialEnabled: boolean
-}>()
+const props = defineProps({
+  initialKey: String,
+  initialEnabled: Boolean
+})
 
-const emit = defineEmits<{
-  'close': []
-  'save': [key: string, enabled: boolean]
-}>()
+const emit = defineEmits(['close', 'save'])
 
 const apiKey = ref(props.initialKey)
 const enabled = ref(props.initialEnabled)

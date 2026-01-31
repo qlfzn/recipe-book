@@ -1,21 +1,8 @@
 import { ref } from 'vue'
 
-export interface Recipe {
-  id: string
-  url: string
-  title: string
-  author: string
-  description: string
-  thumbnail: string
-  tags: string[]
-  plannedDate: string | null
-  createdAt: string
-  updatedAt: string
-}
-
 const STORAGE_KEY = 'tiktokRecipes'
 
-const recipes = ref<Recipe[]>([])
+const recipes = ref([])
 
 export function useRecipes() {
   const loadRecipes = () => {
@@ -29,8 +16,8 @@ export function useRecipes() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes.value))
   }
 
-  const addRecipe = async (recipe: Omit<Recipe, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const newRecipe: Recipe = {
+  const addRecipe = async (recipe) => {
+    const newRecipe = {
       ...recipe,
       id: Date.now().toString(),
       createdAt: new Date().toISOString(),
@@ -41,7 +28,7 @@ export function useRecipes() {
     return newRecipe
   }
 
-  const updateRecipe = async (recipe: Recipe) => {
+  const updateRecipe = async (recipe) => {
     const index = recipes.value.findIndex(r => r.id === recipe.id)
     if (index !== -1) {
       recipes.value[index] = {
@@ -52,7 +39,7 @@ export function useRecipes() {
     }
   }
 
-  const deleteRecipe = async (id: string) => {
+  const deleteRecipe = async (id) => {
     recipes.value = recipes.value.filter(r => r.id !== id)
     saveToStorage()
   }

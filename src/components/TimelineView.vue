@@ -19,7 +19,7 @@
     <div v-if="groupedRecipes.past.length > 0" class="mt-8">
       <button 
         @click="showPast = !showPast"
-        class="flex items-center gap-2 text-[#6B5B4F]/70 hover:text-[#6B5B4F] transition-colors mb-4"
+        class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors mb-4"
       >
         <svg 
           :style="{ transform: showPast ? 'rotate(90deg)' : 'rotate(0deg)' }"
@@ -38,30 +38,27 @@
     </div>
 
     <div v-if="recipes.length === 0" class="text-center py-20">
-      <div class="w-24 h-24 mx-auto mb-6 bg-[#F5EDE4] rounded-full flex items-center justify-center">
-        <svg class="w-12 h-12 text-[#C4977D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
         </svg>
       </div>
-      <h3 class="font-display text-2xl text-[#4A4039] mb-2">No planned recipes</h3>
-      <p class="text-[#6B5B4F]">Set a "Plan to Cook" date on your recipes to see them here!</p>
+      <h3 class="text-2xl font-semibold text-gray-900 mb-2">No planned recipes</h3>
+      <p class="text-gray-600">Set a "Plan to Cook" date on your recipes to see them here!</p>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 import TimelineSection from './TimelineSection.vue'
-import { getTodayDate } from '../utils/dateUtils'
-import type { Recipe } from '../composables/useRecipes'
+import { getTodayDate } from '../utils/dateUtils.js'
 
-const props = defineProps<{
-  recipes: Recipe[]
-}>()
+const props = defineProps({
+  recipes: Array
+})
 
-const emit = defineEmits<{
-  'view-recipe': [recipe: Recipe]
-}>()
+const emit = defineEmits(['view-recipe'])
 
 const showPast = ref(false)
 
@@ -82,8 +79,8 @@ const groupedRecipes = computed(() => {
   return {
     today: todayRecipes,
     tomorrow: upcomingRecipes.filter(r => r.plannedDate === tomorrowStr),
-    thisWeek: upcomingRecipes.filter(r => r.plannedDate! > tomorrowStr && r.plannedDate! <= thisWeekEndStr),
-    later: upcomingRecipes.filter(r => r.plannedDate! > thisWeekEndStr),
+    thisWeek: upcomingRecipes.filter(r => r.plannedDate > tomorrowStr && r.plannedDate <= thisWeekEndStr),
+    later: upcomingRecipes.filter(r => r.plannedDate > thisWeekEndStr),
     past: pastRecipes
   }
 })

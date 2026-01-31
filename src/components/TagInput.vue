@@ -1,12 +1,12 @@
 <template>
   <div class="space-y-4">
     <div>
-      <label class="block text-sm font-medium text-[#4A4039] mb-2">Tags</label>
+      <label class="block text-sm font-medium text-gray-900 mb-2">Tags</label>
       <div id="selectedTags" class="flex flex-wrap gap-2 mb-3">
         <span 
           v-for="tag in modelValue"
           :key="tag"
-          class="inline-flex items-center gap-1 px-3 py-1.5 bg-[#9CAF88] text-white rounded-full text-sm"
+          class="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-900 text-white rounded text-sm"
         >
           {{ tag }}
           <button 
@@ -25,25 +25,25 @@
           v-model="tagInput"
           type="text" 
           placeholder="Add a tag (e.g., japanese, dinner, quick)"
-          class="flex-1 px-4 py-2.5 bg-white border border-[#C4977D]/30 rounded-xl text-[#4A4039]"
+          class="flex-1 px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900"
           @keypress.enter="addTag"
         >
         <button 
           @click="addTag"
-          class="px-4 py-2.5 bg-[#F5EDE4] hover:bg-[#E8DDD2] text-[#6B5B4F] rounded-xl transition-colors font-medium"
+          class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors font-medium"
         >
           Add Tag
         </button>
       </div>
 
       <div class="mt-3">
-        <p class="text-xs text-[#6B5B4F]/70 mb-2">Suggested tags:</p>
+        <p class="text-xs text-gray-600 mb-2">Suggested tags:</p>
         <div class="flex flex-wrap gap-2">
           <button 
             v-for="tag in suggestedTags"
             :key="tag"
             @click="addSuggestedTag(tag)"
-            class="px-3 py-1 text-xs bg-[#F5EDE4] hover:bg-[#E8DDD2] text-[#6B5B4F] rounded-full transition-colors"
+            class="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors"
           >
             {{ tag }}
           </button>
@@ -53,16 +53,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 
-const props = defineProps<{
-  modelValue: string[]
-}>()
+const props = defineProps({
+  modelValue: Array
+})
 
-const emit = defineEmits<{
-  'update:modelValue': [tags: string[]]
-}>()
+const emit = defineEmits(['update:modelValue'])
 
 const tagInput = ref('')
 
@@ -79,13 +77,13 @@ const addTag = () => {
   }
 }
 
-const addSuggestedTag = (tag: string) => {
+const addSuggestedTag = (tag) => {
   if (!props.modelValue.includes(tag)) {
     emit('update:modelValue', [...props.modelValue, tag])
   }
 }
 
-const removeTag = (tag: string) => {
+const removeTag = (tag) => {
   emit('update:modelValue', props.modelValue.filter(t => t !== tag))
 }
 </script>

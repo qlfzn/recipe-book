@@ -1,12 +1,12 @@
 <template>
-  <div class="min-h-screen">
-    <Header @open-api-modal="showApiModal = true" @add-recipe="showAddModal = true" :ai-enabled="aiStore.enabled.value" />
+  <div class="min-h-screen bg-gray-50">
+    <Header @add-recipe="showAddModal = true" @search="searchQuery = $event" />
     
     <!-- View Toggle & Filter Section -->
     <section class="max-w-7xl mx-auto px-4 py-4">
       <ViewToggle 
         :current-view="currentView"
-        @change-view="setView"
+        @change-view="currentView = $event"
         :upcoming-count="upcomingCount"
       />
     </section>
@@ -33,14 +33,6 @@
     </main>
 
     <!-- Modals -->
-    <ApiKeyModal 
-      v-if="showApiModal"
-      @close="showApiModal = false"
-      @save="saveApiKey"
-      :initial-key="aiStore.apiKey.value"
-      :initial-enabled="aiStore.enabled.value"
-    />
-    
     <RecipeModal
       v-if="showAddModal"
       :recipe="editingRecipe"
@@ -58,7 +50,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, onMounted } from 'vue'
 import Header from './components/Header.vue'
 import ViewToggle from './components/ViewToggle.vue'
@@ -69,20 +61,20 @@ import RecipeModal from './components/RecipeModal.vue'
 import ViewRecipeModal from './components/ViewRecipeModal.vue'
 import EmptyState from './components/EmptyState.vue'
 import NoResultsState from './components/NoResultsState.vue'
-import { useRecipes } from './composables/useRecipes'
-import { useAiSettings } from './composables/useAiSettings'
+import { useRecipes } from './composables/useRecipes.js'
+import { useAiSettings } from './composables/useAiSettings.js'
 
 const { recipes, addRecipe, updateRecipe, deleteRecipe: deleteRecipeFromStore, loadRecipes } = useRecipes()
 const aiStore = useAiSettings()
 
-const currentView = ref<'gallery' | 'timeline'>('gallery')
+const currentView = ref('gallery')
 const searchQuery = ref('')
 const showAddModal = ref(false)
 const showApiModal = ref(false)
 const showViewModal = ref(false)
-const editingRecipe = ref<any>(null)
-const viewingRecipe = ref<any>(null)
-const filters = ref(new Set<string>())
+const editingRecipe = ref(null)
+const viewingRecipe = ref(null)
+const filters = ref(new Set())
 
 onMounted(() => {
   loadRecipes()
@@ -110,7 +102,7 @@ const plannedRecipes = computed(() => {
         r.author.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
         r.tags.some(tag => tag.toLowerCase().includes(searchQuery.value.toLowerCase()))
     })
-    .sort((a, b) => a.plannedDate!.localeCompare(b.plannedDate!))
+    .sort((a, b) => (a.plannedDate || '').localeCompare(b.plannedDate || ''))
 })
 
 const upcomingCount = computed(() => {
@@ -118,11 +110,11 @@ const upcomingCount = computed(() => {
   return recipes.value.filter(r => r.plannedDate && r.plannedDate >= today).length
 })
 
-const setView = (view: 'gallery' | 'timeline') => {
+const setView = (view) => {
   currentView.value = view
 }
 
-const filterByTag = (tag: string | null) => {
+const filterByTag = (tag) => {
   if (tag === null) {
     filters.value.clear()
   } else {
@@ -134,12 +126,12 @@ const filterByTag = (tag: string | null) => {
   }
 }
 
-const editRecipe = (recipe: any) => {
+const editRecipe = (recipe) => {
   editingRecipe.value = recipe
   showAddModal.value = true
 }
 
-const saveRecipe = async (recipe: any) => {
+const saveRecipe = async (recipe) => {
   if (recipe.id) {
     await updateRecipe(recipe)
   } else {
@@ -154,17 +146,17 @@ const closeRecipeModal = () => {
   editingRecipe.value = null
 }
 
-const viewRecipe = (recipe: any) => {
+const viewRecipe = (recipe) => {
   viewingRecipe.value = recipe
   showViewModal.value = true
 }
 
-const saveApiKey = (key: string, enabled: boolean) => {
+const saveApiKey = (key, enabled) => {
   aiStore.setApiKey(key)
   aiStore.setEnabled(enabled)
 }
 
-const deleteRecipe = async (id: string) => {
+const deleteRecipe = async (id) => {
   if (confirm('Are you sure you want to delete this recipe?')) {
     await deleteRecipeFromStore(id)
     showViewModal.value = false

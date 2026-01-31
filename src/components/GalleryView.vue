@@ -10,18 +10,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import RecipeCard from './RecipeCard.vue'
-import type { Recipe } from '../composables/useRecipes'
 
-defineProps<{
-  recipes: Recipe[]
-  filters: Set<string>
-}>()
+defineProps({
+  recipes: Array,
+  filters: Set
+})
 
-const emit = defineEmits<{
-  'edit-recipe': [recipe: Recipe]
-  'view-recipe': [recipe: Recipe]
-  'filter-by-tag': [tag: string | null]
-}>()
+const emit = defineEmits(['edit-recipe', 'view-recipe', 'filter-by-tag'])
 </script>

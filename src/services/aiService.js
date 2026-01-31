@@ -1,4 +1,4 @@
-export async function fetchTikTokMetadata(url: string) {
+export async function fetchTikTokMetadata(url) {
   try {
     const oembedUrl = `https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`
     const data = await fetchWithProxy(oembedUrl)
@@ -13,11 +13,11 @@ export async function fetchTikTokMetadata(url: string) {
   }
 }
 
-async function fetchWithProxy(targetUrl: string) {
+async function fetchWithProxy(targetUrl) {
   const proxies = [
-    (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-    (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-    (url: string) => `https://proxy.cors.sh/${url}`
+    (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    (url) => `https://proxy.cors.sh/${url}`
   ]
 
   for (const proxyFn of proxies) {
@@ -30,7 +30,7 @@ async function fetchWithProxy(targetUrl: string) {
         return JSON.parse(text)
       }
     } catch (error) {
-      console.log('Proxy failed, trying next...', (error as Error).message)
+      console.log('Proxy failed, trying next...', error.message)
       continue
     }
   }
@@ -38,7 +38,7 @@ async function fetchWithProxy(targetUrl: string) {
   throw new Error('All proxies failed')
 }
 
-async function fetchWithTimeout(url: string, options = {}, timeout = 10000) {
+async function fetchWithTimeout(url, options = {}, timeout = 10000) {
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), timeout)
 
@@ -55,13 +55,7 @@ async function fetchWithTimeout(url: string, options = {}, timeout = 10000) {
   }
 }
 
-export interface AiMetadata {
-  title: string
-  description: string
-  suggestedTags: string[]
-}
-
-export async function processWithAI(apiKey: string, metadata: any): Promise<AiMetadata | null> {
+export async function processWithAI(apiKey, metadata) {
   if (!apiKey) {
     return null
   }
@@ -83,7 +77,7 @@ export async function processWithAI(apiKey: string, metadata: any): Promise<AiMe
 Your task:
 1. Create a clear, concise recipe TITLE (remove hashtags, emojis, and unnecessary text - just the recipe name)
 2. Extract the DESCRIPTION which should include any recipe steps, ingredients, or cooking notes mentioned (clean up the text, make it readable)
-3. Suggest relevant TAGS for categorization (cuisine type, meal type, main ingredients, cooking style - lowercase, single words or short phrases)
+3. Suggest relevant TAGS for categorization (cuisine type, main ingredients - lowercase, single words or short phrases)
 
 Respond ONLY with valid JSON in this exact format:
 {
@@ -123,11 +117,11 @@ Respond ONLY with valid JSON in this exact format:
   }
 }
 
-export function autoSuggestTags(title: string): string[] {
+export function autoSuggestTags(title) {
   const titleLower = title.toLowerCase()
-  const suggestedTags: string[] = []
+  const suggestedTags = []
 
-  const tagKeywords: Record<string, string[]> = {
+  const tagKeywords = {
     japanese: ['japanese', 'japan', 'sushi', 'ramen', 'miso', 'teriyaki', 'tempura'],
     korean: ['korean', 'korea', 'kimchi', 'bibimbap', 'gochujang'],
     chinese: ['chinese', 'china', 'wok', 'stir fry', 'dim sum'],
