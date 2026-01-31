@@ -1,23 +1,11 @@
 import { ref } from 'vue'
 
-const apiKey = ref(localStorage.getItem('groqApiKey') || '')
-const enabled = ref(localStorage.getItem('aiEnabled') !== 'false')
+const apiKey = ref(import.meta.env.VITE_GROQ_API_KEY || '')
+const enabled = ref(true)
 
 export function useAiSettings() {
-  const setApiKey = (key: string) => {
-    apiKey.value = key
-    localStorage.setItem('groqApiKey', key)
-  }
-
-  const setEnabled = (value: boolean) => {
-    enabled.value = value
-    localStorage.setItem('aiEnabled', String(value))
-  }
-
   return {
     apiKey,
-    enabled,
-    setApiKey,
-    setEnabled
+    enabled
   }
 }

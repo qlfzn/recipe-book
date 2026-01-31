@@ -1,6 +1,6 @@
-# Recipe Keeper - TikTok Recipe Manager
+# sav-it
 
-Web application for managing and organizing TikTok recipe videos with AI-powered metadata extraction.
+A minimal, intentional platform for curating and organizing your favorite TikTok recipes.
 
 ## Features
 
@@ -16,5 +16,6 @@ Web application for managing and organizing TikTok recipe videos with AI-powered
 - Database: Supabase (PostgreSQL)
 
 ## Enhancements
+
 - [ ] Integrate with database - Supabase
 - [ ] Authentication and user management
