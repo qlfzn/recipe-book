@@ -1,4 +1,4 @@
-# sav-it
+# letmecook
 
 A minimal, intentional platform for curating and organizing your favorite TikTok recipes.
 

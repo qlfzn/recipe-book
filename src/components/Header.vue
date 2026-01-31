@@ -2,7 +2,7 @@
   <header class="sticky top-0 z-40 bg-white border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 py-3">
       <div class="flex items-center justify-between gap-4">
-        <h1 class="text-2xl font-semibold text-gray-900">sav-it</h1>
+        <h1 class="text-2xl font-semibold text-gray-900">letmecook</h1>
 
         <div class="flex-1 max-w-md">
           <div class="relative">
