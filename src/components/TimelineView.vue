@@ -97,19 +97,18 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import TimelineSection from "./TimelineSection.vue";
 import { getTodayDate } from "../utils/dateUtils";
-import type { Recipe } from "../composables/useRecipes";
 
-const props = defineProps<{
-  recipes: Recipe[];
-}>();
+const props = defineProps({
+  recipes: Array
+});
 
-const emit = defineEmits<{
-  "view-recipe": [recipe: Recipe];
-}>();
+const emit = defineEmits({
+  'view-recipe': {}
+});
 
 const showPast = ref(false);
 
@@ -135,9 +134,9 @@ const groupedRecipes = computed(() => {
     today: todayRecipes,
     tomorrow: upcomingRecipes.filter((r) => r.plannedDate === tomorrowStr),
     thisWeek: upcomingRecipes.filter(
-      (r) => r.plannedDate! > tomorrowStr && r.plannedDate! <= thisWeekEndStr,
+      (r) => r.plannedDate > tomorrowStr && r.plannedDate <= thisWeekEndStr,
     ),
-    later: upcomingRecipes.filter((r) => r.plannedDate! > thisWeekEndStr),
+    later: upcomingRecipes.filter((r) => r.plannedDate > thisWeekEndStr),
     past: pastRecipes,
   };
 });

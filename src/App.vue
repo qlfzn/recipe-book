@@ -53,7 +53,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, onMounted } from "vue";
 import Header from "./components/Header.vue";
 import ViewToggle from "./components/ViewToggle.vue";
@@ -75,13 +75,13 @@ const {
 } = useRecipes();
 const aiStore = useAiSettings();
 
-const currentView = ref<"gallery" | "timeline">("gallery");
+const currentView = ref("gallery");
 const searchQuery = ref("");
 const showAddModal = ref(false);
 const showViewModal = ref(false);
-const editingRecipe = ref<any>(null);
-const viewingRecipe = ref<any>(null);
-const filters = ref(new Set<string>());
+const editingRecipe = ref(null);
+const viewingRecipe = ref(null);
+const filters = ref(new Set());
 
 onMounted(() => {
   loadRecipes();
@@ -120,7 +120,11 @@ const plannedRecipes = computed(() => {
         )
       );
     })
-    .sort((a, b) => a.plannedDate!.localeCompare(b.plannedDate!));
+    .sort((a, b) => {
+      const dateA = a.plannedDate || "";
+      const dateB = b.plannedDate || "";
+      return dateA.localeCompare(dateB);
+    });
 });
 
 const upcomingCount = computed(() => {
@@ -129,7 +133,7 @@ const upcomingCount = computed(() => {
     .length;
 });
 
-const setView = (view: "gallery" | "timeline") => {
+const setView = (view) => {
   currentView.value = view;
 };
 
@@ -145,7 +149,7 @@ const filterByTag = (tag) => {
   }
 };
 
-const editRecipe = (recipe: any) => {
+const editRecipe = (recipe) => {
   editingRecipe.value = recipe;
   showAddModal.value = true;
 };
@@ -165,12 +169,12 @@ const closeRecipeModal = () => {
   editingRecipe.value = null;
 };
 
-const viewRecipe = (recipe: any) => {
+const viewRecipe = (recipe) => {
   viewingRecipe.value = recipe;
   showViewModal.value = true;
 };
 
-const deleteRecipe = async (id: string) => {
+const deleteRecipe = async (id) => {
   if (confirm("Are you sure you want to delete this recipe?")) {
     await deleteRecipeFromStore(id);
     showViewModal.value = false;

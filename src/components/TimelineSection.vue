@@ -35,17 +35,16 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import TimelineCard from "./TimelineCard.vue";
-import type { Recipe } from "../composables/useRecipes";
 
-defineProps<{
-  title: string;
-  recipes: Recipe[];
-  type: "today" | "upcoming" | "past";
-}>();
+defineProps({
+  title: String,
+  recipes: Array,
+  type: String
+});
 
-const emit = defineEmits<{
-  view: [recipe: Recipe];
-}>();
+const emit = defineEmits({
+  view: {}
+});
 </script>

@@ -189,7 +189,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, reactive } from "vue";
 import TagInput from "./TagInput.vue";
 import {
@@ -198,16 +198,15 @@ import {
   autoSuggestTags,
 } from "../services/aiService";
 import { useAiSettings } from "../composables/useAiSettings";
-import type { Recipe } from "../composables/useRecipes";
 
-const props = defineProps<{
-  recipe?: Recipe | null;
-}>();
+const props = defineProps({
+  recipe: Object
+});
 
-const emit = defineEmits<{
-  close: [];
-  save: [recipe: any];
-}>();
+const emit = defineEmits({
+  close: {},
+  save: {}
+});
 
 const aiStore = useAiSettings();
 const loading = ref(false);
@@ -220,8 +219,8 @@ const form = reactive({
   author: "",
   description: "",
   thumbnail: "",
-  tags: [] as string[],
-  plannedDate: null as string | null,
+  tags: [],
+  plannedDate: null,
 });
 
 onMounted(() => {

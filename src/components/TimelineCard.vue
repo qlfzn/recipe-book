@@ -75,23 +75,22 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from "vue";
 import {
   formatPlannedDateFull,
   isDateToday,
   isDatePast,
 } from "../utils/dateUtils";
-import type { Recipe } from "../composables/useRecipes";
 
-const props = defineProps<{
-  recipe: Recipe;
-  type: "today" | "upcoming" | "past";
-}>();
+const props = defineProps({
+  recipe: Object,
+  type: String
+});
 
-const emit = defineEmits<{
-  view: [recipe: Recipe];
-}>();
+const emit = defineEmits({
+  view: {}
+});
 
 const formattedDate = computed(() =>
   props.recipe.plannedDate

@@ -56,13 +56,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
-defineProps<{
-  currentView: "gallery" | "timeline";
-  upcomingCount: number;
-}>();
+<script setup>
+defineProps({
+  currentView: String,
+  upcomingCount: Number
+});
 
-const emit = defineEmits<{
-  "change-view": [view: "gallery" | "timeline"];
-}>();
+const emit = defineEmits({
+  'change-view': {}
+});
 </script>

@@ -2,12 +2,12 @@
   <div></div>
 </template>
 
-<script setup lang="ts">
-defineProps<{
-  searchQuery: string
-}>()
+<script setup>
+defineProps({
+  searchQuery: String
+})
 
-const emit = defineEmits<{
-  'update-search': [query: string]
-}>()
+const emit = defineEmits({
+  'update-search': {}
+})
 </script>

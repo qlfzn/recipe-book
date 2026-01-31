@@ -41,8 +41,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const emit = defineEmits<{
-  "add-recipe": [];
-}>();
+<script setup>
+const emit = defineEmits({
+  'add-recipe': {}
+});
 </script>

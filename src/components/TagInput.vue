@@ -63,16 +63,16 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 
-const props = defineProps<{
-  modelValue: string[];
-}>();
+const props = defineProps({
+  modelValue: Array
+});
 
-const emit = defineEmits<{
-  "update:modelValue": [tags: string[]];
-}>();
+const emit = defineEmits({
+  'update:modelValue': {}
+});
 
 const tagInput = ref("");
 
@@ -103,7 +103,7 @@ const addSuggestedTag = (tag) => {
   }
 };
 
-const removeTag = (tag: string) => {
+const removeTag = (tag) => {
   emit(
     "update:modelValue",
     props.modelValue.filter((t) => t !== tag),

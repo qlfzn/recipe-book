@@ -92,19 +92,18 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from "vue";
 import { isDateToday, isDatePast, formatPlannedDate } from "../utils/dateUtils";
-import type { Recipe } from "../composables/useRecipes";
 
-const props = defineProps<{
-  recipe: Recipe;
-}>();
+const props = defineProps({
+  recipe: Object
+});
 
-const emit = defineEmits<{
-  view: [recipe: Recipe];
-  edit: [recipe: Recipe];
-}>();
+const emit = defineEmits({
+  view: {},
+  edit: {}
+});
 
 const isToday = computed(() =>
   props.recipe.plannedDate ? isDateToday(props.recipe.plannedDate) : false,
